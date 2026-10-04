@@ -1,0 +1,12 @@
+fastapi==0.141.1
+uvicorn==0.54.0
+requests==2.34.2
+filelock==4.0.4
+numpy==2.5.1
+Pillow==12.2.0
+rasterio==1.5.1
+pylerc==4.2.0
+etcpak==0.9.15
+laspy==2.6.1
+lazrs==0.8.0
+pyproj==3.7.2

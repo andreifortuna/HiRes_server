@@ -1,0 +1,74 @@
+Triglav live build - 2026-10-04 UTC
+
+Center: Triglav summit, WGS84 46.378333 N, 13.836667 E
+Rectangle: 1000 x 1000 metres in EPSG:3794
+Bounds: x 410009.791073..411009.791073, y 137783.442684..138783.442684
+Job ID: 704a3203e79648afaad2ee28a5308d31
+Request ID: 68fb79b6-8c13-488f-97bf-a2c302287dee
+
+Both artifacts READY and retained:
+
+Map ZIP:
+  C:\hires_server\data\packages\704a3203e79648afaad2ee28a5308d31-map.zip
+  50,223,083 bytes
+  SHA-256 d492d583b1dd90b5a159ff43e35d1e8ab5ab6b38895af19c46ba6ebeb024fce5
+  CLSS POF orthophoto: 6250 x 6250, 0.16 m/pixel, 16 ETC2 KTX tiles.
+  CLSS DMR terrain: 2000 x 2000, 0.5 m/pixel, Float32 LERC.
+  LERC maximum measured encoding error: 0.09912109375 m.
+  Height range: 2147.451..2863.523 m.
+  Highest DMR sample is about 4.3 m from the requested centre.
+  Original DMR source tiles are included in the ZIP.
+
+GKOT ZIP:
+  C:\hires_server\data\packages\704a3203e79648afaad2ee28a5308d31-gkot.zip
+  347,385,219 bytes
+  SHA-256 18ffe384a2f1be9256ca31f289436087c47db8a0548c0c09d2b7c44c44b75826
+  35,557,141 classified, coloured LiDAR points in cropped gkot.laz.
+  LAS point format 8; CRS EPSG:3794; source attributes retained.
+  Verified output point count equals the count independently cropped from all source tiles.
+
+Source tiles: 410_137, 410_138, 411_137, 411_138; acquisition 15.08.2024.
+Cache: four POF tiles (397,689,956 bytes), four DMR tiles (21,147,965 bytes),
+four GKOT tiles (1,079,400,388 bytes). Cache remains for later builds.
+
+Submitted 07:54:49 UTC. Map published 07:56:51 UTC; GKOT published 07:57:43 UTC.
+
+Checks completed:
+  - Both ZIP archives passed CRC/integrity checks.
+  - Decoded the LERC height map and an ETC2 orthophoto preview.
+  - Inspected all 16 orthophoto tiles together for complete visual coverage.
+  - LAS count, CRS, XYZ bounds, dimensions and classifications verified.
+  - HEAD and HTTP Range download requests returned expected lengths/checksums.
+  - A repeated request ID reused the job; changed data with that ID returned 409.
+  - Both artifacts stayed ready across a server restart.
+  - Automated tests: 4 passed, including completed Range-resume recovery
+    and deletion of an active build.
+
+Observed limitations:
+  - An arbitrary 1 km rectangle crosses four source tiles here, so first-build
+    download volume was about 1.5 GB. Reusing cached tiles avoids repeat downloads.
+  - Tile link discovery depends on the public CLSS viewer's guest API; if it
+    changes, resolution will fail visibly instead of silently using guessed URLs.
+  - CLSS documentation states a portal download limit; larger-scale repeated
+    source acquisition requires access arrangements with GURS.
+
+The current package format is for the planned separate viewer. It is not an
+unmodified HEDDA client package because it deliberately has no OSM layers.
+
+Render upgrade on 2026-10-04 (supersedes archive sizes and format above):
+  Map ZIP: 119,533,750 bytes; SHA-256
+    3f7a954f6a9b30e071b687cce156c4f1aca9124b6c2a47a39537788aac98aad6
+  GKOT ZIP: 348,505,750 bytes; SHA-256
+    777cb351cbd61d4cc98e6c838d73eacbd5d62ffb9c5411a005548b4fbaa1c718
+  Orthophoto: 16 lossless RGB PNG tiles at 0.16 m/pixel. The same close camera
+    view was compared with ETC2; lossless retained visibly clearer rock detail.
+  Terrain: measured 1x vertical scale, raw-DMR-aligned render heights,
+    slope-aware cliff material, GKOT ground-normal detail.
+  GKOT: classified LAZ retained; 1024 x 1024 normal texture and 318
+    conservative close-range cliff triangles added. A targeted close view
+    exposed artifacts from isolated faces; connected clusters and locally
+    matched cliff colour removed those artifacts on repeat visual inspection.
+  Both current ZIPs passed CRC checks. The Win32 Debug viewer loaded the
+    downloaded artifacts; wide, mid, and close screenshots were inspected
+    after each render stage. Four server tests passed. The restarted local
+    server returned a healthy status.
